@@ -14,11 +14,17 @@ export interface LayerData extends StackObjectData {
 }
 
 export interface StackObjectData {
+  id: string;
+
   dimensions: Vector2;
   position: Vector2;
   scale: Vector2;
   alpha: number;
 
-  cachedImage: HTMLCanvasElement;
+  cachedImage: CanvasWithContext;
   cacheDirty: boolean;
+}
+
+export interface CanvasWithContext extends HTMLCanvasElement {
+  context: CanvasRenderingContext2D;
 }

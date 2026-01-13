@@ -19,7 +19,7 @@ export class PixelStack {
     };
 
     this.dimensions(this.data.dimensions);
-    this.addLayer();
+    this.addLayer("root");
   }
 
   public dimensions(value: Vector2 = this.data.dimensions): Vector2 {
@@ -29,9 +29,14 @@ export class PixelStack {
     return dimensions;
   }
 
-  public addLayer(): Layer {
-    const layer = new Layer(this);
+  public addLayer(layerId?: string): Layer {
+    const layer = new Layer(layerId ?? null, this);
     this.data.layers.push(layer);
     return layer;
+  }
+
+  public getLayer(layerId: string): Layer | null {
+    const layer = this.data.layers.find((l) => l.id() === layerId);
+    return layer || null;
   }
 }

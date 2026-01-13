@@ -4,9 +4,10 @@ import type { PixelStack } from "./pixel-stack.ts";
 import type { LayerData } from "./types.ts";
 
 export class Layer extends StackObject {
-  protected override data: LayerData;
-  public constructor(pixelStack: PixelStack) {
+  declare protected data: LayerData;
+  public constructor(id: string | null, pixelStack: PixelStack) {
     super();
-    this.data = object.mergeInto(super.getInternalData(), { pixelStack });
+    const superData = super.getInternalData();
+    this.data = object.mergeInto(superData, { id: id || superData.id, pixelStack });
   }
 }
