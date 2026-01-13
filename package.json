@@ -1,0 +1,46 @@
+{
+  "name": "pixel-stack",
+  "version": "0.0.0-alpha0",
+  "description": "A simple drawing tool that utilizes the Canvas2D API.",
+  "homepage": "https://github.com/Inside-The-Bakers-Box/pixel-stack#readme",
+  "author": "The Byte Bakers",
+  "license": "MIT",
+  "keywords": [
+    "pixel-stack",
+    "drawing",
+    "graphics",
+    "layering",
+    "photo-editing",
+    "2d"
+  ],
+  "type": "module",
+  "main": "dist/pixel-stack.js",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "build:watch": "node ./scripts/build-watch.js",
+    "dev": "node ./scripts/dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "broadutils": "github:NullPointerInclusion/broadutils"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.5",
+    "cafe": "github:NullPointerInclusion/cafe",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3"
+  },
+  "files": [
+    "dist/",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/Inside-The-Bakers-Box/pixel-stack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inside-The-Bakers-Box/pixel-stack.git"
+  }
+}
