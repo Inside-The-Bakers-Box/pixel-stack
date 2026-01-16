@@ -1,5 +1,5 @@
 import type { Vector2 } from "broadutils/types";
-import type { StackObjectData } from "./types.ts";
+import type { StackObjectData, StackObjectInit } from "./types.ts";
 import { generateRandomId, getCanvasWithContext } from "./shared.ts";
 
 export class StackObject {
@@ -8,9 +8,9 @@ export class StackObject {
     return this.data;
   }
 
-  public constructor() {
+  public constructor(init: StackObjectInit = {}) {
     this.data = {
-      id: generateRandomId(this),
+      id: init.id ?? generateRandomId(this),
 
       dimensions: [1, 1],
       position: [0, 0],
@@ -55,6 +55,11 @@ export class StackObject {
 
   public markCacheDirty(): null {
     this.data.cacheDirty = true;
+    return null;
+  }
+
+  protected markCacheClean(): null {
+    this.data.cacheDirty = false;
     return null;
   }
 

@@ -1,13 +1,50 @@
 import { object } from "broadutils/data";
 import { StackObject } from "./object.ts";
-import type { PixelStack } from "./pixel-stack.ts";
-import type { LayerData } from "./types.ts";
+import type { StackLayerData, StackLayerInit } from "./types.ts";
 
-export class Layer extends StackObject {
-  declare protected data: LayerData;
-  public constructor(id: string | null, pixelStack: PixelStack) {
-    super();
+export class StackLayer extends StackObject {
+  declare protected data: StackLayerData;
+  public constructor(init: StackLayerInit) {
+    super(init);
     const superData = super.getInternalData();
-    this.data = object.mergeInto(superData, { id: id || superData.id, pixelStack });
+    this.data = object.mergeInto(superData, { objects: new Set(), pixelStack: init.pixelStack });
+  }
+
+  public addObject(object: StackObject): boolean {
+    if (this.data.objects.has(object)) return false;
+
+    this.data.objects.add(object);
+    this.markCacheDirty();
+
+    return true;
+  }
+
+  public removeObject(object: StackObject): boolean {
+    if (!this.data.objects.has(object)) return false;
+
+    this.data.objects.delete(object);
+    this.markCacheDirty();
+
+    return true;
+  }
+
+  public override render(): HTMLCanvasElement {
+    const { objects, cachedImage, cacheDirty } = this.data;
+
+    if (cacheDirty) {
+      const alpha = this.alpha();
+      const { context } = cachedImage;
+
+      context.reset();
+      context.globalAlpha = alpha;
+
+      for (const object of objects) {
+        context.drawImage(object.render(), ...object.position(), ...object.dimensions());
+      }
+
+      this.markCacheClean();
+    }
+
+    return cachedImage;
   }
 }

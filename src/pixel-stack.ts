@@ -1,10 +1,10 @@
 import { nonNullable } from "broadutils/validate";
-import { Layer } from "./layer.ts";
+import { StackLayer } from "./layer.ts";
 import type { PixelStackData } from "./types.ts";
 import type { Vector2 } from "broadutils";
 
 export class PixelStack {
-  public static Layer = Layer;
+  public static Layer = StackLayer;
 
   protected data: PixelStackData;
   public constructor() {
@@ -29,13 +29,13 @@ export class PixelStack {
     return dimensions;
   }
 
-  public addLayer(layerId?: string): Layer {
-    const layer = new Layer(layerId ?? null, this);
+  public addLayer(layerId?: string): StackLayer {
+    const layer = new StackLayer({ id: layerId ?? null, pixelStack: this });
     this.data.layers.push(layer);
     return layer;
   }
 
-  public getLayer(layerId: string): Layer | null {
+  public getLayer(layerId: string): StackLayer | null {
     const layer = this.data.layers.find((l) => l.id() === layerId);
     return layer || null;
   }
