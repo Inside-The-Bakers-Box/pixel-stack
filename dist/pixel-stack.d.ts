@@ -1,12 +1,13 @@
-import { Layer } from "./layer.ts";
+import { StackLayer } from "./layer.ts";
 import type { PixelStackData } from "./types.ts";
 import type { Vector2 } from "broadutils";
 export declare class PixelStack {
-    static Layer: typeof Layer;
     protected data: PixelStackData;
     constructor();
     dimensions(value?: Vector2): Vector2;
-    addLayer(layerId?: string): Layer;
-    getLayer(layerId: string): Layer | null;
+    addLayer(layerId?: string): StackLayer;
+    getLayer(layerId: string): StackLayer | null;
+    getCanvas(): HTMLCanvasElement;
+    render(): null;
 }
 //# sourceMappingURL=pixel-stack.d.ts.map

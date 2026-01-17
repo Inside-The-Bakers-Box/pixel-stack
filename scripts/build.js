@@ -8,11 +8,11 @@ export const build = async (watch = false, incremental = false) => {
   await rm("./dist/", { force: true, recursive: true });
   await mkdir("./dist/", { recursive: true });
 
-  const spawnargs = ["tsc"];
+  const spawnargs = ["./node_modules/typescript/lib/tsc.js"];
   watch && spawnargs.push("--watch");
   incremental && spawnargs.push("--incremental");
 
-  return spawn("npx", spawnargs, { stdio: ["ignore", "inherit", "inherit"] });
+  return spawn("node", spawnargs, { stdio: ["ignore", "inherit", "inherit"] });
 };
 
 if (import.meta.main) build();

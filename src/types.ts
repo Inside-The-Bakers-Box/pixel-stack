@@ -33,8 +33,10 @@ export interface StackLayerData extends StackObjectData {
 
 export interface StackImageData extends StackObjectData {
   imageSource: HTMLImageElement;
-  imageFillMode: "cover" | "contain" | "direct";
+  imageFillMode: "cover" | "contain" | "direct" | "stretch";
   imagePosition: Vector2;
+  imageDimensions: Vector2;
+  dimensionsMode: "relative" | "direct";
 }
 
 export interface StackObjectInit {
@@ -49,4 +51,6 @@ export interface StackImageInit extends StackObjectInit {
   imageSource: HTMLImageElement;
   imageFillMode?: StackImageData["imageFillMode"];
   imagePosition?: StackImageData["imagePosition"];
+  imageDimensions?: StackImageData["imageDimensions"];
+  dimensionsMode?: StackImageData["dimensionsMode"];
 }

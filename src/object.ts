@@ -1,6 +1,7 @@
 import type { Vector2 } from "broadutils/types";
 import type { StackObjectData, StackObjectInit } from "./types.ts";
 import { generateRandomId, getCanvasWithContext } from "./shared.ts";
+import { resize } from "broadutils/canvas";
 
 export class StackObject {
   protected data: StackObjectData;
@@ -28,9 +29,15 @@ export class StackObject {
 
   public dimensions(value: Vector2 = this.data.dimensions): Vector2 {
     const dimensions = this.data.dimensions;
-    dimensions[0] = value[0];
-    dimensions[1] = value[1];
-    dimensions !== value && this.markCacheDirty();
+    const changed = !(dimensions[0] === value[0] && dimensions[1] === value[1]);
+
+    if (changed) {
+      dimensions[0] = value[0];
+      dimensions[1] = value[1];
+      resize(this.data.cachedImage, dimensions);
+      this.markCacheDirty();
+    }
+
     return dimensions;
   }
 

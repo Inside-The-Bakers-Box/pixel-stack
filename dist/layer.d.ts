@@ -1,8 +1,10 @@
 import { StackObject } from "./object.ts";
-import type { PixelStack } from "./pixel-stack.ts";
-import type { LayerData } from "./types.ts";
-export declare class Layer extends StackObject {
-    protected data: LayerData;
-    constructor(id: string | null, pixelStack: PixelStack);
+import type { StackLayerData, StackLayerInit } from "./types.ts";
+export declare class StackLayer extends StackObject {
+    protected data: StackLayerData;
+    constructor(init: StackLayerInit);
+    addObject(object: StackObject): boolean;
+    removeObject(object: StackObject): boolean;
+    render(): HTMLCanvasElement;
 }
 //# sourceMappingURL=layer.d.ts.map

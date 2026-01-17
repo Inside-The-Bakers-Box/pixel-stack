@@ -2,10 +2,9 @@ import { nonNullable } from "broadutils/validate";
 import { StackLayer } from "./layer.ts";
 import type { PixelStackData } from "./types.ts";
 import type { Vector2 } from "broadutils";
+import { resize } from "broadutils/canvas";
 
 export class PixelStack {
-  public static Layer = StackLayer;
-
   protected data: PixelStackData;
   public constructor() {
     const canvas = document.createElement("canvas");
@@ -26,6 +25,7 @@ export class PixelStack {
     const dimensions = this.data.dimensions;
     dimensions[0] = value[0];
     dimensions[1] = value[1];
+    resize(this.data.canvas, dimensions);
     return dimensions;
   }
 
@@ -38,5 +38,21 @@ export class PixelStack {
   public getLayer(layerId: string): StackLayer | null {
     const layer = this.data.layers.find((l) => l.id() === layerId);
     return layer || null;
+  }
+
+  public getCanvas(): HTMLCanvasElement {
+    return this.data.canvas;
+  }
+
+  public render(): null {
+    const { context, dimensions, layers } = this.data;
+
+    context.reset();
+    for (const layer of layers) {
+      const canvas = layer.render();
+      context.drawImage(canvas, 0, 0, ...dimensions);
+    }
+
+    return null;
   }
 }

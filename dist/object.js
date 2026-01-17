@@ -1,12 +1,13 @@
 import { generateRandomId, getCanvasWithContext } from "./shared.js";
+import { resize } from "broadutils/canvas";
 export class StackObject {
     data;
     getInternalData() {
         return this.data;
     }
-    constructor() {
+    constructor(init = {}) {
         this.data = {
-            id: generateRandomId(this),
+            id: init.id ?? generateRandomId(this),
             dimensions: [1, 1],
             position: [0, 0],
             scale: [0, 0],
@@ -20,9 +21,13 @@ export class StackObject {
     }
     dimensions(value = this.data.dimensions) {
         const dimensions = this.data.dimensions;
-        dimensions[0] = value[0];
-        dimensions[1] = value[1];
-        dimensions !== value && this.markCacheDirty();
+        const changed = !(dimensions[0] === value[0] && dimensions[1] === value[1]);
+        if (changed) {
+            dimensions[0] = value[0];
+            dimensions[1] = value[1];
+            resize(this.data.cachedImage, dimensions);
+            this.markCacheDirty();
+        }
         return dimensions;
     }
     position(value = this.data.position) {
@@ -43,6 +48,10 @@ export class StackObject {
     }
     markCacheDirty() {
         this.data.cacheDirty = true;
+        return null;
+    }
+    markCacheClean() {
+        this.data.cacheDirty = false;
         return null;
     }
     render() {

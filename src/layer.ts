@@ -39,6 +39,7 @@ export class StackLayer extends StackObject {
       context.globalAlpha = alpha;
 
       for (const object of objects) {
+        console.log(object.position(), object.dimensions());
         context.drawImage(object.render(), ...object.position(), ...object.dimensions());
       }
 
